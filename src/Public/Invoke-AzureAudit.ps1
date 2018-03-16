@@ -51,10 +51,6 @@ function Invoke-AzureAudit {
         #[Alias('Path','Script')]
         #[object[]]$Test = (Get-VesterTest -Simple),
 
-        # Optionally fix all config drift that is discovered
-        # Defaults to false (disabled)
-        [switch]$Remediate = $false,
-
         # Optionally save Pester output in NUnitXML format to a specified path
         # Specifying a path automatically triggers Pester in NUnitXML mode
         [ValidateScript({Test-Path (Split-Path $_ -Parent)})]
@@ -67,7 +63,7 @@ function Invoke-AzureAudit {
 
     PROCESS {
         # -Test should accept directories and objects
-        If ($Test[0] -notlike '*.Vester.ps1') {
+        If ($Test[0] -notlike '*.Audit.ps1') {
             If ($Test[0].FullName) {
                 # Strip Get-Item/Get-ChildItem/Get-VesterTest object to path only
                 $Test = $Test.FullName
